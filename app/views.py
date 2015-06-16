@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, session, redirect, url_for
 from database import init_db, db_session
 from models import *
 from app import app
+from forms import *
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
