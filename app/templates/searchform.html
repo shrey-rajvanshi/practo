@@ -1,15 +1,16 @@
-<div>
-	<script>
-	function gotosearch(){
-		var user = document.getElementById("user").value;
-    window.location = "http:://localhost/search" + user;
-	}
-	</script>
-<form method="POST" action = "search/">
-   <div>{{ form.location.label }}: {{ form.location(class="css_class") }}</div>
-   <div>{{ form.specialization.label }}: {{ form.specialization() }}</div>
-   <div>
-       <button type="submit">search</button>
-   </div>
+{% extends "layouts/base.html" %} {% block content %}
+
+<div class = "container">
+	<div class= "row">
+<form class="form-inline" role="form" method="POST" action = "">
+    <div class = "col-md-2"></div>
+	<div class="form-group">{{ form.location.label }}: {{ form.location()}}</div>
+	<div class="form-group specialization">{{ form.specialization.label }}: {{ form.specialization() }}</div>
+    <button type="button" class="btn searchbtn btn-default" aria-label="Left Align" onclick="search()">
+  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+</button>
+<div class = "col-md-2"></div>
 </form>
 </div>
+</div>
+{% endblock %}

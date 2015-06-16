@@ -1,0 +1,69 @@
+<head>
+ <style>
+   body {
+       margin: 0;
+       left: 0;
+       top: 0;
+       right: 0;
+       bottom: 0;
+       display: flex;
+       flex-direction: row;
+   }
+   input {
+     color: steelblue;
+     font-size: 30px;
+     background: white;
+     height: 50px;
+     margin: 20px;
+     float:left;
+     font-style: italic;
+   }
+   input[type=text]
+   {
+       background-color: white;
+       border:solid 1px #BFBDBD;
+       color: #979797;
+       padding-left:10px;
+       box-shadow: 2px 2px 0 white inset;
+   }
+   #wrap {
+     position: absolute;
+     top:30%;
+     left:20%;
+     background-color: lightblue;
+   }
+
+   #btn {
+     position: absolute;
+     top:0%;
+     left:100%;
+   }
+   button {
+     width:100px;
+     height:90px;
+   }
+   </style>
+<head>
+
+<body>
+ <img src="https://www.practo.com/bundles/practopractoapp/images/logos/practo_logo.svg" style="width:204px;height:128px;" >
+ <div id="wrap">
+   <form method="POST" action = "search/">
+     <input type="text" value="Bangalore" name="location">
+     <input type="text" value="Dentist" name="specialization">
+     <div id="btn">
+          <button type="submit"><img src="/static/search.jpeg" alt="Submit"></button>
+     </div>
+   </form>
+ </div>
+
+
+ <script>
+ function gotosearch(){
+   var user = document.getElementById("user").value;
+   // console.log(user)
+   window.location = "http:://localhost/search" + user;
+ }
+ </script>
+
+</body>
