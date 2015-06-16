@@ -1,0 +1,15 @@
+<div>
+	<script>
+	function gotosearch(){
+		var user = document.getElementById("user").value;
+    window.location = "http:://localhost/search" + user;
+	}
+	</script>
+<form method="POST" action = "search/">
+   <div>{{ form.location.label }}: {{ form.location(class="css_class") }}</div>
+   <div>{{ form.specialization.label }}: {{ form.specialization() }}</div>
+   <div>
+       <button type="submit">search</button>
+   </div>
+</form>
+</div>

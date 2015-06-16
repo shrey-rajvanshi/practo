@@ -1,0 +1,34 @@
+
+<style>
+    table, tr, th, td {
+        border: 1px solid black;
+    }
+</style>
+<table>
+    <tr>
+        <th>Id  </th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>Experience</th>
+        <th>Number</th>
+        <th>Qualification</th>
+        <th>Speciality</th>
+    </tr>
+    {% for doctor in doctors %}
+        <tr>
+            <td>{{ doctor.id }}</td>
+            <td>{{ doctor.name }}</td>
+            <td>{{ doctor.address }}</td>
+            <td>{{ doctor.city}} </td>
+            <td>{{ doctor.experience }}</td>
+            <td>{{ doctor.number}}</td>
+            <td>{{ doctor.qualification}}</td>
+            <td>
+            {% for specialization in doctor.specialities %}
+               {{ specialization.name}}
+            {%endfor%}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

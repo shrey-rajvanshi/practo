@@ -1,0 +1,33 @@
+
+<style>
+    table, tr, th, td {
+        border: 1px solid black;
+    }
+</style>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>Experience</th>
+        <th>Number</th>
+        <th>Qualification</th>
+        <th>Speciality</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    {% for user in users %}
+        <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.address }}</td>
+            <td>{{ user.city}} </td>
+            <td>{{ user.experience }}</td>
+            <td>{{ user.number}}</td>
+            <td>{{ user.qualification}}</td>
+            <td>{{ user.speciality}}</td>
+
+            <td><a href="/edit/{{ user.id }}">Edit</a></td>
+            <td><a href="/delete/{{ user.id }}">Delete</a></td>
+        </tr>
+    {% endfor %}
+</table>
