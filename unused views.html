@@ -1,0 +1,23 @@
+
+@app.route('/delete/<int:user_id>')
+def delete_user(user_id):
+    user_obj = User.query.get(user_id)
+    db_session.delete(user_obj)
+    db_session.commit()
+    return redirect(url_for('home'))
+
+@app.route('/add/<user_id>', methods=['GET', 'POST'])
+def add_user(user_id):
+  if request.method == "GET":
+    if user_id == 'new':
+        form = UserForm(request.form)
+    else:
+        return redirect('/edit/'+user_id)
+    return render_template('user_form.html', form=form)
+  else:
+    form = request.form
+    user = User(form['name'],form['address'],form['city'],form['experience'],form['number'],form['qualification'],form['speciality'])
+    db_session.add(user)
+    db_session.commit()
+    return redirect('/')
+
