@@ -1,3 +1,4 @@
+
 function search(){
 	city =document.getElementById("location").value;
 	speciality= document.getElementById("specialization").value;
@@ -5,3 +6,4 @@ function search(){
 	else{
 	window.location+=("search/"+city+"/"+speciality);}
 }
+

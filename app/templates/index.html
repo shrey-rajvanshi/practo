@@ -1,34 +1,83 @@
 
-<style>
-    table, tr, th, td {
-        border: 1px solid black;
-    }
-</style>
-<table>
-    <tr>
-        <th>Id  </th>
-        <th>Name</th>
-        <th>Address</th>
-        <th>City</th>
-        <th>Experience</th>
-        <th>Number</th>
-        <th>Qualification</th>
-        <th>Speciality</th>
-    </tr>
-    {% for doctor in doctors %}
-        <tr>
-            <td>{{ doctor.id }}</td>
-            <td>{{ doctor.name }}</td>
-            <td>{{ doctor.address }}</td>
-            <td>{{ doctor.city}} </td>
-            <td>{{ doctor.experience }}</td>
-            <td>{{ doctor.number}}</td>
-            <td>{{ doctor.qualification}}</td>
-            <td>
+{% extends "layouts/base.html" %} 
+<html>
+  <head>
+    <title>Doctor - Display</title>
+    
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+    
+    
+        <link href="/admin/static/bootstrap/bootstrap2/css/bootstrap.css" rel="stylesheet">
+        <link href="/admin/static/bootstrap/bootstrap2/css/bootstrap-responsive.css" rel="stylesheet">
+        <link href="/admin/static/admin/css/bootstrap2/admin.css" rel="stylesheet">
+        <style>
+        body {
+            padding-top: 4px;
+        }
+
+        </style>
+    {% block content %}
+    
+  </head>
+  <body>
+    
+    <div class="container">
+
+    <table class="table table-striped table-bordered table-hover model-list">
+        <thead>
+            <tr>
+                    
+                    <th class="column-header col-id">
+                                <a href="" title="Id">Id</a>
+                    </th>
+                    <th class="column-header col-name">
+                                <a href="" title="Name">Name</a>
+                    </th>
+
+                    <th class="column-header col-city">
+                                <a href="" title="Number">City</a>
+                    </th>
+                    <th class="column-header col-experience">
+                                <a href="" title="Fees">Experience</a>
+                    </th>
+                    <th class="column-header col-number">
+                                <a href="" title="Recommendations">Number</a>
+                    </th>
+                    <th class="column-header col-qualification">
+                                <a href="" title="Qualification">Qualification</a>
+                    </th>
+                    <th class="column-header col-specs">
+                                <a href="" title="City">Specialities</a>
+                    </th>
+                
+            </tr>
+        </thead>
+        
+<tbody>
+    {% if blank_flag %}
+
+    <td><h3>No results found</h3></td>
+    {% else %}
+
+            {% for doctor in doctors %}
+            <tr>
+            <td class= "col-id">{{ doctor.id }}</td>
+            <td class= "col-name">{{ doctor.name }}</td>
+            <td class= "col-city">{{ doctor.city}} </td>
+            <td class= "col-experience">{{ doctor.experience }}</td>
+            <td class= "col-number">{{ doctor.number}}</td>
+            <td class= "col-qualification">{{ doctor.qualification}}</td>
+            <td class= "col-specs">
             {% for specialization in doctor.specialities %}
                {{ specialization.name}}
-            {%endfor%}
-            </td>
-        </tr>
-    {% endfor %}
+            {%endfor%}</td>
+</tr>
+
+{% endfor %}
+{% endif %}
+</tbody>
 </table>
+
+{% endblock %}           
