@@ -6,14 +6,14 @@ class Doctor(Base):                                           #Doctor details
    __tablename__ = 'doctor_details'
    id = Column(Integer,primary_key = True)
    name = Column(String(64))
-   experience = Column(Integer)
+   experience = Column(Integer)                               #experience in years
    number = Column(Integer)
-   fees = Column(Integer)
-   recommendations = Column(Integer)
-   qualification = Column(Text)
-   city=Column(String(20))
-   specialities = relationship("Speciality",secondary="association")
-
+   fees = Column(Integer)                                     #should be a relationship attribute of the relationship(doctor-clinic).as of now.
+   recommendations = Column(Integer)                          #no Of recommendations
+   qualification = Column(Text)                               #stored as text. Maybe split into name, institution etc.
+   city=Column(String(20))                                    #main location of a doctor. 
+   specialities = relationship("Speciality",secondary="assoc_doc_spec_table")
+   clinics = relationship("Clinic",secondary="assoc_doc_clinic_table")
 
    def __init__(self, name=None, locality=None,city=None,
        experience=None,number=None,qualification=None,
@@ -38,23 +38,45 @@ class Speciality(Base):
     name = Column(String(40),unique=True)
     doctors = relationship(
         "Doctor",
-        secondary='association')
+        secondary='assoc_doc_spec_table')
 
-    def __init__(self):
-        self.name = ""
+    def __init__(self,name=""):
+        self.name = name
 
     def __repr__(self):
         return self.name
 
 
 
-class doc_spec(Base):                                       #Association object
-    __tablename__ = 'association'
+class doc_spec(Base):                                       #Association object - for implementing ManytoMany relationship
+    __tablename__ = 'assoc_doc_spec_table'
     doc_id = Column(Integer, ForeignKey('doctor_details.id'), primary_key=True)
     spec_id = Column(Integer, ForeignKey('Speciality_details.id'), primary_key=True)
-    rel_speciality = relationship(Speciality, backref=backref("associated_speciality",cascade="save-update, merge,delete, all,delete-orphan"))
-    rel_doctor = relationship(Doctor, backref=backref("associated_doctor",cascade="save-update, merge,delete, all,delete-orphan"))
+    rel_speciality = relationship(Speciality, backref=backref("associated_specialities",cascade="save-update, merge,delete, all,delete-orphan"))
+    rel_doctor = relationship(Doctor, backref=backref("associated_doctors",cascade="save-update, merge,delete, all,delete-orphan"))
 
     def __repr__(self):
         return 'Relationship b/w :' + str(self.doc_id)+" and "+str(self.spec_id)
 
+class Clinic(Base):
+  __tablename__ ="clinic_details"
+  id = Column(Integer,primary_key = True)
+  name = Column(String(100)
+  locality = Column(String(400))
+  address = Column(Text)
+  about = Column(Text)
+  timings = Column(String(500))
+  services = Column(Text)
+  lattitude = Column(String(500))            # check later
+  longitude = Column(String(500))              #check later
+  doctors = relationship("Doctor",secondary='assoc_doc_clinic_table')
+
+
+class assoc_doc_clinic(Base):
+  __tablename__ ="assoc_doc_clinic_table"
+  doc_id = Column(Integer, ForeignKey('doctor_details.id'), primary_key=True)
+  clinic_id = Column(Integer, ForeignKey('clinic_details.id'), primary_key=True)
+  rel_doctor = relationship(Doctor, backref=backref("associated_doctorlist",cascade="save-update, merge,delete, all,delete-orphan"))
+  rel_clinic = relationship(Clinic,backref=backref("associated_clinics",cascade="save-update, merge,delete, all,delete-orphan"))
+  fees = Column(Integer)
+  timings= Column(String(300))

@@ -20,9 +20,10 @@ class DoctorAdmin(sqla.ModelView):
 admin.add_view(DoctorAdmin(Doctor, db_session))
 
 
-
 class SpecialityAdmin(sqla.ModelView):
 	form_excluded_columns = ('associated_speciality')
 
 
 admin.add_view(SpecialityAdmin(Speciality, db_session))
+
+admin.add_view(ModelView(Clinic,db_session))
