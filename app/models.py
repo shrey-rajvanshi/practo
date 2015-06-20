@@ -52,11 +52,11 @@ class doc_spec(Base):                                       #Association object 
     __tablename__ = 'assoc_doc_spec_table'
     doc_id = Column(Integer, ForeignKey('doctor_details.id'), primary_key=True)
     spec_id = Column(Integer, ForeignKey('Speciality_details.id'), primary_key=True)
-    rel_speciality = relationship(Speciality, backref=backref("associated_specialities",cascade="save-update, merge,delete, all,delete-orphan"))
-    rel_doctor = relationship(Doctor, backref=backref("associated_doctors",cascade="save-update, merge,delete, all,delete-orphan"))
+    #rel_speciality = relationship(Speciality, backref=backref("associated_specialities",cascade="save-update, merge,delete, all,delete-orphan"))
+    #rel_doctor = relationship(Doctor, backref=backref("associated_doctors",cascade="save-update, merge,delete, all,delete-orphan"))
 
     def __repr__(self):
-        return 'Relationship b/w :' + str(self.doc_id)+" and "+str(self.spec_id)
+        return 'Doc Spec b/w :' + str(self.doc_id)+" and "+str(self.spec_id)
 
 class Clinic(Base):
   __tablename__ ="clinic_details"
@@ -76,7 +76,13 @@ class assoc_doc_clinic(Base):
   __tablename__ ="assoc_doc_clinic_table"
   doc_id = Column(Integer, ForeignKey('doctor_details.id'), primary_key=True)
   clinic_id = Column(Integer, ForeignKey('clinic_details.id'), primary_key=True)
-  rel_doctor = relationship(Doctor, backref=backref("associated_doctorlist",cascade="save-update, merge,delete, all,delete-orphan"))
-  rel_clinic = relationship(Clinic,backref=backref("associated_clinics",cascade="save-update, merge,delete, all,delete-orphan"))
+  #rel_doctor = relationship(Doctor, backref=backref("associated_doctorlist",cascade="save-update, merge,delete, all,delete-orphan"))
+  #rel_clinic = relationship(Clinic,backref=backref("associated_clinics",cascade="save-update, merge,delete, all,delete-orphan"))
   fees = Column(Integer)
   timings= Column(String(300))
+
+
+
+
+
+
