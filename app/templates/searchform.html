@@ -1,16 +1,96 @@
 {% extends "layouts/base.html" %} {% block content %}
+<head>
+	<style>
+	.input-lg {
+		margin-left: 20px;
+  		margin-right: 20px
+	}
+	#search-box {
+		margin-top: 150px;
+		background-color: steelblue;
+	}
+	.panel-default {
+		padding: 10px;
+	}
+	.glyphicon {
+		margin-top: 5px;
+		font-size:20px;
+		color: white;
+	}
 
-<div class = "container">
-	<div class= "row">
-<form class="form-inline" role="form" method="POST" action = "">
-    <div class = "col-md-2"></div>
-	<div class="form-group">{{ form.location.label }}: {{ form.location()}}</div>
-	<div class="form-group specialization">{{ form.specialization.label }}: {{ form.specialization() }}</div>
-    <button type="button" class="btn searchbtn btn-default" aria-label="Left Align" onclick="search()">
-  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-</button>
-<div class = "col-md-2"></div>
-</form>
-</div>
-</div>
+	.glyphicon-search{
+		color:steelblue;
+	}
+
+	</style>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css">
+	<title>jQuery UI Autocomplete - Default functionality</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"></script>
+		<script>
+	function search(){
+		var city =document.getElementById("location").value;
+		var speciality= document.getElementById("specialization").value;
+		if(speciality=="") {
+			window.location+=("search/"+city+"/");
+		} else { 
+			window.location+=("search/"+city+"/"+speciality);
+		}
+	}
+  
+  $(function() {
+    var availableTagsLocation = [
+      "Banglore",
+      "Mumbai",
+      "Chennai",
+      "Delhi",
+      "Pune",
+    ];
+
+    var availableTagsCategory = [
+      "Dentist",
+      "General Physician",
+      "Homeopath",
+      "Ayurveda",
+      "Cardiologist",
+      "Orthopedist",
+      "Ear-nose-throat",
+      "Dermotologist",
+      "Gynocologist"
+    ];
+
+    $("#location" ).autocomplete({
+      source: availableTagsLocation
+    });
+
+    $("#specialization").autocomplete({
+    	source: availableTagsCategory
+    });
+
+  });
+  </script>
+</head>
+
+	<div class="panel panel-default panel-heading text-left float:right" id="search-box">		
+		<form class="form-inline" role="form" method="POST" action = "">
+		    <div class = "col-md-2"></div>
+
+		    <div class="form-group fg1">
+			<span class="glyphicon glyphicon-map-marker"></span>			
+			<input class="form-control input-lg" id="location" type="text" placeholder="Banglore" margin="10px">
+			</div>
+
+			<div class="form-group fg2">
+			<span class="glyphicon glyphicon-zoom-in"></span>
+			<input class="form-control input-lg" id="specialization" type="text" placeholder="Dentist, Gynocologist, etc." >
+			</div>
+
+		    <button class="form-control input-lg" type="button" class="btn searchbtn btn-default" aria-label="Left Align" onclick="search()">
+		  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+		</button>
+		<div class = "col-md-2"></div>
+		</form>
+	</div>
+
 {% endblock %}
