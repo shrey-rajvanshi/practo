@@ -6,14 +6,17 @@ class Doctor(Base):                                           #Doctor details
    __tablename__ = 'doctor_details'
    id = Column(Integer,primary_key = True)
    name = Column(String(64))
+   email = Column(String(100))
    experience = Column(Integer)                               #experience in years
-   number = Column(Integer)
+   number = Column(String(10))
    fees = Column(Integer)                                     #should be a relationship attribute of the relationship(doctor-clinic).as of now.
    recommendations = Column(Integer)                          #no Of recommendations
    qualification = Column(Text)                               #stored as text. Maybe split into name, institution etc.
    city=Column(String(20))                                    #main location of a doctor. 
+   status = Column(String(200))
    specialities = relationship("Speciality",secondary="assoc_doc_spec_table")
    clinics = relationship("Clinic",secondary="assoc_doc_clinic_table")
+
 
    def __init__(self, name=None, locality=None,city=None,
        experience=None,number=None,qualification=None,
@@ -44,7 +47,7 @@ class Speciality(Base):
         self.name = name
 
     def __repr__(self):
-        return self.name
+        return str(self.name)
 
 
 
@@ -68,9 +71,12 @@ class Clinic(Base):
   about = Column(Text)
   timings = Column(String(500))
   services = Column(Text)
-  lattitude = Column(String(500))            # check later
+  lattitude = Column(String(500))              # check later
   longitude = Column(String(500))              #check later
   doctors = relationship("Doctor",secondary='assoc_doc_clinic_table')
+
+  def __repr__(self):
+        return str(self.name)
 
 
 class assoc_doc_clinic(Base):
@@ -83,7 +89,6 @@ class assoc_doc_clinic(Base):
   timings= Column(String(300))
 
 
-
-
-
+  def __repr__(self):
+        return 'Doc Spec b/w :' + str(self.doc_id)+" and "+str(self.clinic_id)
 
