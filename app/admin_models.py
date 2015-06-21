@@ -8,15 +8,38 @@ from app import app,admin
 from models import *
 from database import init_db, db_session
 from wtforms import *
+from flask_admin import Admin, form
+import os.path as op
+import os
+from jinja2 import Markup
+from flask import Flask, url_for
+
+file_path = op.join(os.path.dirname(os.path.abspath(__file__)),'static/')
 
 class DoctorAdmin(sqla.ModelView):
     column_display_pk = True
     #column_exclude_list = ['id']
-    form_columns = ('name','email','number','experience','qualification','city','clinics','specialities',)
+    form_columns = ('name','email','number','experience','qualification','city','clinics','specialities','photo')
     column_searchable_list = ('name', 'id',)
     #form_excluded_columns = ('associated_doctorlist','associated_doctors')
     #inline_models = (Clinic,)
-   #scaffold_inline_form_models(Clinic)
+    form_extra_fields = {
+        'photo': form.ImageUploadField('Image', base_path=file_path,thumbnail_size=(100, 100, True))
+    }
+    def _list_thumbnail(view, context, model, name):
+        if not model.photo:
+            return ''
+
+        return Markup('<img src="%s">' % url_for('static',filename=form.thumbgen_filename(model.photo)))
+
+    column_formatters = {
+        'photo': _list_thumbnail
+    }
+    form_extra_fields = {
+        'photo': form.ImageUploadField('Image', base_path=file_path,thumbnail_size=(100, 100, True))
+    }
+    # Alternative way to contribute field is to override it completely.
+    # In this case, Flask-Admin won't attempt to merge various parameters for the field.
 
 admin.add_view(DoctorAdmin(Doctor, db_session))
 

@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String,Text,Table,ForeignKey
 from sqlalchemy.orm import relationship,backref
 from database import Base
+from werkzeug import secure_filename
 
 class Doctor(Base):                                           #Doctor details
    __tablename__ = 'doctor_details'
@@ -16,6 +17,7 @@ class Doctor(Base):                                           #Doctor details
    status = Column(String(200))
    specialities = relationship("Speciality",secondary="assoc_doc_spec_table")
    clinics = relationship("Clinic",secondary="assoc_doc_clinic_table")
+   photo = Column(String(100))
 
 
    def __init__(self, name=None, locality=None,city=None,
@@ -91,4 +93,5 @@ class assoc_doc_clinic(Base):
 
   def __repr__(self):
         return 'Doc Spec b/w :' + str(self.doc_id)+" and "+str(self.clinic_id)
+
 
