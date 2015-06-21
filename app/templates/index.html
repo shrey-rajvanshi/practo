@@ -17,7 +17,7 @@
         }
         .doctor {
             margin: auto;
-            width: 70% ;
+            width: 80% ;
             display: flex;
             border-width: 2px;
             border-style: solid;
@@ -25,22 +25,28 @@
             border-radius: 25px;
 
         }
-    
+        .img {
+            width: 20%;
+            margin: 5px;
+            background-color: red;
+            margin: 15px;  
+        }
         .con1 {
-            width: 30%;
-            margin-left: 50px;
-            margin-top: 30px;
+            width: 25%;
+            margin-left: 5px;
+            margin-top: 15px;
             margin-bottom: 0px;
-            margin-right: 10px;
+            margin-right: 0px;
             color: lightblue;
             font-size: 15px;
+            padding: 2px;
 
         }
         .con2 {
-            width:30%;
-            margin-top: 80px;
+            width:20%;
+            margin-top: 70px;
             margin-bottom: 0px;
-            margin-right: 10px;
+            margin-right: 35px;
             margin-left: 0px;
             color: grey;
             font-size: 15px;
@@ -48,12 +54,10 @@
         }
         .con3 {
             flex: 1;
-            margin: 30px;
             color: lightblue;
-            margin-top: 80px;
+            margin-top: 70px;
             color: grey;
-            padding: 3px;
-
+            margin-bottom: 10px;
         }
         #name {
             font-size: 40px;
@@ -91,6 +95,9 @@
         {% else %}
             {% for doctor in doctors %}
                 <div class="doctor">
+                    <div class="img">
+                        <img src ="{{ url_for('static', filename='images/12.jpg') }}">
+                    </div>
                     <div class="con1">
                         <ul>
                         <p id="name">Dr. {{ doctor.name }}</p>
