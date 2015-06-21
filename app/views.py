@@ -17,18 +17,20 @@ def home():                                                             #display
 @app.route('/search/<location>/')                                        #Trailing slash issue solved
 def searchbylocation(location):                                          #Search doctors by city.
     doctors = Doctor.query.filter(Doctor.city==location)
+    clinic= Clinic.query.filter(Clinic.city==location).first()
     isblank=False
     if(doctors.count()==0):
         isblank=True
-    return render_template('index.html', doctors=doctors,blank_flag=isblank)
+    return render_template('index.html', doctors=doctors,blank_flag=isblank,clinic=clinic)
 
 @app.route('/search/<location>/<speciality>/', methods=['GET', 'POST'])
 @app.route('/search/<location>/<speciality>', methods=['GET', 'POST'])                  
 def searchbyspecialitynlocation(location,speciality):                                       #main search function by city and speciality
-    searchedSpecId=Speciality.query.filter(Speciality.name==speciality)[0].id                 #Id of searched speciality
-    listOfDoc_specs = doc_spec.query.filter(doc_spec.spec_id==searchedSpecId)                 #list of all associated doc_spec(associated object) IDs
+    searchedSpecId=Speciality.query.filter(Speciality.name==speciality)[0].id               #Id of searched speciality
+    listOfDoc_specs = doc_spec.query.filter(doc_spec.spec_id==searchedSpecId)               #list of all associated doc_spec(associated object) IDs
     doctors=[]                                                                                
     isblank=False
+    clinic = Clinic.query.filter(Clinic.city==location).first()                             #To-Do: add clinic speciality
     for doc_spec_object in listOfDoc_specs:                                                 #get doctors in list of associated objects' ids
         doc_id=doc_spec_object.doc_id
         if(Doctor.query.get(int(doc_id)).city ==location):                                  #filter selected Doctor objects on location
@@ -36,7 +38,7 @@ def searchbyspecialitynlocation(location,speciality):                           
 
     if(doctors.count()==0):
         isblank=True
-    return render_template('index.html', doctors=doctors,blank_flag=isblank)
+    return render_template('index.html', doctors=doctors,blank_flag=isblank,clinic = clinic)
 
 @app.route('/')
 def landingpage():

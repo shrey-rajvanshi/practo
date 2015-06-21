@@ -62,6 +62,7 @@ class Clinic(Base):
   __tablename__ ="clinic_details"
   id = Column(Integer,primary_key = True)
   name = Column(String(100))
+  city= Column(String(20))  
   locality = Column(String(400))
   address = Column(Text)
   about = Column(Text)
