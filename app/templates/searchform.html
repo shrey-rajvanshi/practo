@@ -3,11 +3,16 @@
 	<style>
 	.input-lg {
 		margin-left: 20px;
-  		margin-right: 20px
+	 	margin-right: 20px
 	}
 	#search-box {
 		margin-top: 150px;
 		background-color: steelblue;
+		width: 80%;
+		position: absolute;
+		top:100px;
+		left:120px;
+		border-radius: 10px;
 	}
 	.panel-default {
 		padding: 10px;
@@ -17,53 +22,61 @@
 		font-size:20px;
 		color: white;
 	}
+
 	.glyphicon-search{
 		color:steelblue;
 	}
+
 	</style>
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css">
 	<title>jQuery UI Autocomplete - Default functionality</title>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"></script>
-		<script>
-	function search(){
-		var city =document.getElementById("location").value;
-		var speciality= document.getElementById("specialization").value;
-		if(speciality=="") {
+
+	<script>
+		function search(){
+			var city =document.getElementById("location").value;
+			var speciality= document.getElementById("specialization").value;
+			if(speciality=="") {
 			window.location+=("search/"+city+"/");
-		} else { 
+			} else { 
 			window.location+=("search/"+city+"/"+speciality);
+			}
 		}
-	}
-  
-  $(function() {
-    var availableTagsLocation = [
-      "Banglore",
-      "Mumbai",
-      "Chennai",
-      "Delhi",
-      "Pune",
-    ];
-    var availableTagsCategory = [
-      "Dentist",
-      "General Physician",
-      "Homeopath",
-      "Ayurveda",
-      "Cardiologist",
-      "Orthopedist",
-      "Ear-nose-throat",
-      "Dermotologist",
-      "Gynocologist"
-    ];
-    $("#location" ).autocomplete({
-      source: availableTagsLocation
-    });
-    $("#specialization").autocomplete({
-    	source: availableTagsCategory
-    });
-  });
-  </script>
+ 
+		$(function() {
+			var availableTagsLocation = [
+			"Bangalore",
+			"Mumbai",
+			"Chennai",
+			"Delhi",
+			"Pune",
+			];
+
+			var availableTagsCategory = [
+			"Dentist",
+			"General Physician",
+			"Homeopath",
+			"Ayurveda",
+			"Cardiologist",
+			"Orthopedist",
+			"Ear-nose-throat",
+			"Dermotologist",
+			"Gynocologist"
+			];
+
+			$("#location" ).autocomplete({
+			source: availableTagsLocation
+			});
+
+			$("#specialization").autocomplete({
+			source: availableTagsCategory
+			});
+
+		});
+ </script>
+
 </head>
 
 	<div class="panel panel-default panel-heading text-left float:right" id="search-box">		
@@ -72,7 +85,7 @@
 
 		    <div class="form-group fg1">
 			<span class="glyphicon glyphicon-map-marker"></span>			
-			<input class="form-control input-lg" id="location" type="text" placeholder="Banglore" margin="10px">
+			<input class="form-control input-lg" id="location" type="text" placeholder="Bangalore" margin="10px">
 			</div>
 
 			<div class="form-group fg2">

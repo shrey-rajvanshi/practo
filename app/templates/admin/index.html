@@ -1,0 +1,97 @@
+{%extends "admin/base.html"%}
+    {% block brand %}
+       <img class="pull-right"src="./../../static/practo.svg"/>
+    {% endblock%}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="./../../static/js/scripts.js"></script>
+    <link rel="stylesheet" href="./../../static/css/my.css"></script>
+
+    <style>
+        #pagination {
+           position: absolute;
+           font-size: 20px;
+           left:80%;
+           
+        }    
+        .glyphicon {
+            color: lightblue;
+            margin: 5px;
+            font-size: 15px;
+        }
+        .doctor {
+            margin: auto;
+            width: 80% ;
+            display: flex;
+            border-width: 2px;
+            border-style: solid;
+            border-color: lightblue;
+            border-radius: 25px;
+        }
+        .image {
+            margin-top: 40px;
+            margin-left: 20px;
+            width: 15%;
+        }
+        .image img {
+            vertical-align: middle;
+            display: block;
+            width: 120px;
+            padding:1px;
+            border:2px solid lightblue;
+            border-radius: 5px;
+
+        }
+        .con1 {
+            width: 25%;
+            margin-left: 5px;
+            margin-top: 15px;
+            margin-bottom: 0px;
+            margin-right: 0px;
+            color: lightblue;
+            font-size: 15px;
+            padding: 2px;
+        }
+        .con2 {
+            width:20%;
+            margin-top: 70px;
+            margin-bottom: 0px;
+            margin-right: 35px;
+            margin-left: 0px;
+            color: grey;
+            font-size: 15px;
+        }
+        .con3 {
+            flex: 1;
+            color: lightblue;
+            margin-top: 70px;
+            color: grey;
+            margin-bottom: 10px;
+        }
+        #name {
+            font-size: 40px;
+            color: lightblue;
+        }
+        p {
+            margin: 2px;
+        }
+        ul {
+            list-style: none;
+            padding:0;
+            margin:0;
+        }
+        li { 
+            padding-left: 1em; 
+            text-indent: -.7em;
+            color: grey;    
+        }
+        li:before {
+            content: "• ";
+            color: lightblue; /* or whatever color you prefer */
+        }
+        </style>
+    </head>
+    <body>
+       
+        <h1>this is the admin page.</h1>

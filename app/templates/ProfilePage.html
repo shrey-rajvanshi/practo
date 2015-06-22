@@ -1,3 +1,4 @@
+
 <html>
   <head>
     <title>Doctor - Display</title>
@@ -5,19 +6,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script src="./../../../../static/js/scripts.js"></script>
-    <link rel="stylesheet" href="./../../../../static/css/my.css"></script>
+    <script src="./../../static/js/scripts.js"></script>
 
     <style>
         body {
             background-color:#F0F0F0;
-        }
+        }  
         #pagination {
-           position: absolute;
-           font-size: 20px;
-           left:80%;
-           
-        }    
+            position: absolute;
+            font-size: 20px;
+            left:80%;
+            
+        }
         .glyphicon {
             color: lightblue;
             margin: 5px;
@@ -25,56 +25,53 @@
         }
         .doctor {
             margin: auto;
-            width: 70% ;
+            width: 65% ;
             display: flex;
             border-width: 2px;
             border-style: solid;
             border-color: lightblue;
             border-radius: 25px;
             background-color: white;
+
         }
-        .image {
-            margin-top: 40px;
+       .image {
+            margin-top: 20px;
             margin-left: 20px;
             width: 15%;
+            margin-bottom: 10px;
         }
         .image img {
             vertical-align: middle;
             display: block;
-            width: 120px;
+            width: 130px;
             padding:1px;
             border:2px solid lightblue;
             border-radius: 5px;
 
         }
         .con1 {
-            width: 25%;
-            margin-left: 5px;
+            width: 40%;
+            margin-left: 15px;
             margin-top: 15px;
-            margin-bottom: 0px;
-            margin-right: 0px;
+            margin-bottom: 10px;
+            margin-right: 10px;
             color: lightblue;
             font-size: 15px;
             padding: 2px;
+
         }
         .con2 {
-            width:20%;
+			flex:1;
             margin-top: 70px;
-            margin-bottom: 0px;
+            margin-bottom: 10px;
             margin-right: 35px;
-            margin-left: 0px;
+            margin-left: 10px;
             color: grey;
             font-size: 15px;
         }
-        .con3 {
-            flex: 1;
-            color: lightblue;
-            margin-top: 70px;
-            color: grey;
-            margin-bottom: 10px;
-        }
+
         #name {
-            font-size: 25px;
+            font-size: 40px;
             color: lightblue;
         }
         p {
@@ -85,6 +82,7 @@
             padding:0;
             margin:0;
         }
+
         li { 
             padding-left: 1em; 
             text-indent: -.7em;
@@ -94,6 +92,46 @@
             content: "• ";
             color: lightblue; /* or whatever color you prefer */
         }
+
+        .clinic {
+            margin: auto;
+            width: 65% ;
+            display: flex;
+            border-width: 2px;
+            border-style: solid;
+            border-color: lightblue;
+            border-radius: 25px;
+            background-color: white;	
+        }
+        .Detail {
+        	width: 5%;
+        	color: lightblue;
+        	margin: 10px;
+        	margin-left: 20px;
+        }
+
+        .clinicCon1 {
+            width: 30%;
+            margin-left: 15%;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            margin-right: 10px;
+            color: grey;
+            font-size: 15px;
+            padding: 2px;
+
+        }
+        .clinicCon2 {
+			flex:1;
+            margin-left: 15px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            margin-right: 15%;
+            color: grey;
+            font-size: 15px;
+            padding: 2px;
+        }
+
         </style>
     </head>
     <body>
@@ -103,17 +141,13 @@
             </div>
 
         </nav>
-        {% if blank_flag %}
-            <h3>No results found</h3>
-        {% else %}
-            {% for doctor in doctors['result'] %}
                 <div class="doctor">
                     <div class="image">
                         <img src ="{{ url_for('static', filename='bb_florida-ent-doctor.png') }}">
                     </div>
                     <div class="con1">
                         <ul>
-                        <p id="name"><a href = "./../../../profile/{{doctor.id}}">Dr. {{ doctor.name }}</a></p>
+                        <p id="name">Dr. {{ doctor.name }}</p>
                         <li>{{ doctor.qualification}}</li>
                         <li>{{ doctor.experience }} years experience </li>
                         <li>
@@ -121,6 +155,8 @@
                             {{ specialization.name}}
                         {%endfor%}
                         </li>
+                        <li>{{ doctor.email }}  </li>
+
                     </ul>
                     </div>
                     <div class="con2">
@@ -128,33 +164,31 @@
                             <p><span class="glyphicon glyphicon-thumbs-up"></span>{{ doctor.recommendations }} Recommendations</p>
                             <p><span class="glyphicon glyphicon-credit-card"></span>INR {{ doctor.fees }}</p> 
                             <p><span class="glyphicon glyphicon-phone-alt"></span>{{ doctor.number }}</p>
-                            <p><span class="glyphicon glyphicon-map-marker"></span>{{ doctor.city }}</p>
+                            <p><span class="glyphicon glyphicon-edit" ></span>{{ doctor.email }}</p>
                         
                     </div>
-                    <div class="con3">
-                        <p><span class="glyphicon glyphicon-home"></span>
-                            {{ clinic.name }}</p>
-                        <p><span class="glyphicon glyphicon-map-marker"></span>{{ clinic.address }}, {{ clinic.locality }}</p>
-                        
-                        <p>{{ clinic.city }}</p>    
-                        <p><span class="glyphicon glyphicon-tags"></span>{{ clinic.about }}</p>
-                        <p><span class="glyphicon glyphicon-time"></span>{{ clinic.timings }}</p>
-                        <p><span class="glyphicon glyphicon-bookmark" ></span>{{ clinic.services }}</p>
-                    </div>
-                </div>
-                <br><br>
+                </div><br>
+                {% for clinic in clinics%}
+                	<div class="clinic">
+                		<div class="Detail">
+                			<h3> Clinic Details </h3>
+                		</div>
 
-            {% endfor %}
-        {% endif %}
-        <div id="pagination">
-           {% if pages  %}
-               <a href= '/search/{{location}}/{{speciality}}/{{doctors['prevLink']}}' > prev</a>
-           {% endif %}   
-       
-           {% if doctors['hasMore'] %}
-               <a href ='/search/{{location}}/{{speciality}}/{{doctors['nextLink']}}'> next</a>
-           {% endif %}   
-       </div>
+                		<div class="clinicCon1">
+							<p><span class="glyphicon glyphicon-home"></span>
+                            {{ clinic.name }}</p>
+                           	<p><span class="glyphicon glyphicon-map-marker"></span>{{ clinic.address }}, {{ clinic.locality }}</p>
+							<p><span class="glyphicon glyphicon-map-marker"></span>{{ clinic.city }}</p>
+						</div>
+						
+						<div class="clinicCon2">
+							<p><span class="glyphicon glyphicon-tags"></span>{{ clinic.about }}</p>
+	                        <p><span class="glyphicon glyphicon-time"></span>{{ clinic.timings }}</p>
+	                        <p><span class="glyphicon glyphicon-bookmark" ></span>{{ clinic.services }}</p>
+						</div>
+					</div><br>
+                {%endfor%}
+
         
-</body>  
+	</body>  
 </html>    
