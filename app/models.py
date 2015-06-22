@@ -18,6 +18,7 @@ class Doctor(Base):                                           #Doctor details
    specialities = relationship("Speciality",secondary="assoc_doc_spec_table")
    clinics = relationship("Clinic",secondary="assoc_doc_clinic_table")
    photo = Column(String(100))
+   salutation = Column(String(10))
 
 
    def __init__(self, name=None, locality=None,city=None,
@@ -29,8 +30,6 @@ class Doctor(Base):                                           #Doctor details
        self.experience = experience
        self.number = number
        self.qualification = qualification
-       self.speciality = speciality
-       self.fees = fees
        self.recommendations = recommendations
 
    def __repr__(self):

@@ -35,12 +35,7 @@ class DoctorAdmin(sqla.ModelView):
     column_formatters = {
         'photo': _list_thumbnail
     }
-    form_extra_fields = {
-        'photo': form.ImageUploadField('Image', base_path=file_path,thumbnail_size=(100, 100, True))
-    }
-    # Alternative way to contribute field is to override it completely.
-    # In this case, Flask-Admin won't attempt to merge various parameters for the field.
-
+    
 admin.add_view(DoctorAdmin(Doctor, db_session))
 
 

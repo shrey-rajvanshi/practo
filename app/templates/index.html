@@ -1,83 +1,156 @@
-
-{% extends "layouts/base.html" %} 
 <html>
   <head>
     <title>Doctor - Display</title>
     
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
-    
-    
-        <link href="/admin/static/bootstrap/bootstrap2/css/bootstrap.css" rel="stylesheet">
-        <link href="/admin/static/bootstrap/bootstrap2/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="/admin/static/admin/css/bootstrap2/admin.css" rel="stylesheet">
-        <style>
-        body {
-            padding-top: 4px;
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="./../../static/js/scripts.js"></script>
+    <link rel="stylesheet" href="./../../static/css/my.css"></script>
+
+    <style>
+        #pagination {
+           position: absolute;
+           font-size: 20px;
+           left:80%;
+           
+        }    
+        .glyphicon {
+            color: lightblue;
+            margin: 5px;
+            font-size: 15px;
         }
+        .doctor {
+            margin: auto;
+            width: 80% ;
+            display: flex;
+            border-width: 2px;
+            border-style: solid;
+            border-color: lightblue;
+            border-radius: 25px;
+        }
+        .image {
+            margin-top: 40px;
+            margin-left: 20px;
+            width: 15%;
+        }
+        .image img {
+            vertical-align: middle;
+            display: block;
+            width: 120px;
+            padding:1px;
+            border:2px solid lightblue;
+            border-radius: 5px;
 
+        }
+        .con1 {
+            width: 25%;
+            margin-left: 5px;
+            margin-top: 15px;
+            margin-bottom: 0px;
+            margin-right: 0px;
+            color: lightblue;
+            font-size: 15px;
+            padding: 2px;
+        }
+        .con2 {
+            width:20%;
+            margin-top: 70px;
+            margin-bottom: 0px;
+            margin-right: 35px;
+            margin-left: 0px;
+            color: grey;
+            font-size: 15px;
+        }
+        .con3 {
+            flex: 1;
+            color: lightblue;
+            margin-top: 70px;
+            color: grey;
+            margin-bottom: 10px;
+        }
+        #name {
+            font-size: 40px;
+            color: lightblue;
+        }
+        p {
+            margin: 2px;
+        }
+        ul {
+            list-style: none;
+            padding:0;
+            margin:0;
+        }
+        li { 
+            padding-left: 1em; 
+            text-indent: -.7em;
+            color: grey;    
+        }
+        li:before {
+            content: "• ";
+            color: lightblue; /* or whatever color you prefer */
+        }
         </style>
-    {% block content %}
-    
-  </head>
-  <body>
-    
-    <div class="container">
+    </head>
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"><img src="./../../static/practo.svg"/></a>
+            </div>
 
-    <table class="table table-striped table-bordered table-hover model-list">
-        <thead>
-            <tr>
-                    
-                    <th class="column-header col-id">
-                                <a href="" title="Id">Id</a>
-                    </th>
-                    <th class="column-header col-name">
-                                <a href="" title="Name">Name</a>
-                    </th>
+        </nav>
+        {% if blank_flag %}
+            <h3>No results found</h3>
+        {% else %}
+            {% for doctor in doctors['result'] %}
+                <div class="doctor">
+                    <div class="image">
+                        <img src ="{{ url_for('static', filename='bb_florida-ent-doctor.png') }}">
+                    </div>
+                    <div class="con1">
+                        <ul>
+                        <p id="name">Dr. {{ doctor.name }}</p>
+                        <li>{{ doctor.qualification}}</li>
+                        <li>{{ doctor.experience }} years experience </li>
+                        <li>
+                        {% for specialization in doctor.specialities %}
+                            {{ specialization.name}}
+                        {%endfor%}
+                        </li>
+                    </ul>
+                    </div>
+                    <div class="con2">
+                        
+                            <p><span class="glyphicon glyphicon-thumbs-up"></span>{{ doctor.recommendations }} Recommendations</p>
+                            <p><span class="glyphicon glyphicon-credit-card"></span>INR {{ doctor.fees }}</p> 
+                            <p><span class="glyphicon glyphicon-phone-alt"></span>{{ doctor.number }}</p>
+                            <p><span class="glyphicon glyphicon-map-marker"></span>{{ doctor.city }}</p>
+                        
+                    </div>
+                    <div class="con3">
+                        <p><span class="glyphicon glyphicon-home"></span>
+                            {{ clinic.name }}</p>
+                        <p><span class="glyphicon glyphicon-map-marker"></span>{{ clinic.address }}, {{ clinic.locality }}</p>
+                        
+                        <p>{{ clinic.city }}</p>    
+                        <p><span class="glyphicon glyphicon-tags"></span>{{ clinic.about }}</p>
+                        <p><span class="glyphicon glyphicon-time"></span>{{ clinic.timings }}</p>
+                        <p><span class="glyphicon glyphicon-bookmark" ></span>{{ clinic.services }}</p>
+                    </div>
+                </div>
+                <br><br>
 
-                    <th class="column-header col-city">
-                                <a href="" title="Number">City</a>
-                    </th>
-                    <th class="column-header col-experience">
-                                <a href="" title="Fees">Experience</a>
-                    </th>
-                    <th class="column-header col-number">
-                                <a href="" title="Recommendations">Number</a>
-                    </th>
-                    <th class="column-header col-qualification">
-                                <a href="" title="Qualification">Qualification</a>
-                    </th>
-                    <th class="column-header col-specs">
-                                <a href="" title="City">Specialities</a>
-                    </th>
-                
-            </tr>
-        </thead>
+            {% endfor %}
+        {% endif %}
+        <div id="pagination">
+           {% if pages  %}
+               <a href= '/search/{{location}}/{{speciality}}/{{doctors['prevLink']}}' > prev</a>
+           {% endif %}   
+       
+           {% if doctors['hasMore'] %}
+               <a href ='/search/{{location}}/{{speciality}}/{{doctors['nextLink']}}'> next</a>
+           {% endif %}   
+       </div>
         
-<tbody>
-    {% if blank_flag %}
-
-    <td><h3>No results found</h3></td>
-    {% else %}
-
-            {% for doctor in doctors %}
-            <tr>
-            <td class= "col-id">{{ doctor.id }}</td>
-            <td class= "col-name">{{ doctor.name }}</td>
-            <td class= "col-city">{{ doctor.city}} </td>
-            <td class= "col-experience">{{ doctor.experience }}</td>
-            <td class= "col-number">{{ doctor.number}}</td>
-            <td class= "col-qualification">{{ doctor.qualification}}</td>
-            <td class= "col-specs">
-            {% for specialization in doctor.specialities %}
-               {{ specialization.name}}
-            {%endfor%}</td>
-</tr>
-
-{% endfor %}
-{% endif %}
-</tbody>
-</table>
-
-{% endblock %}           
+</body>  
+</html>    
