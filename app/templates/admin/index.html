@@ -92,6 +92,10 @@
         }
         </style>
     </head>
-    <body>
-       
-        <h1>this is the admin page.</h1>
+
+    {% block body%}
+        <h1>Welcome to the admin page.</h1>
+        <h5> Use Doctor , Clinic or Speciality tabs to use CRUD operation</h5>
+        <p> For everything else, you have the shell :P</p>
+        
+    {%endblock%}

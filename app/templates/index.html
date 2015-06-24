@@ -59,7 +59,7 @@
         }
         .con2 {
             width:20%;
-            margin-top: 70px;
+            margin-top: 50px;
             margin-bottom: 0px;
             margin-right: 35px;
             margin-left: 0px;
@@ -69,7 +69,7 @@
         .con3 {
             flex: 1;
             color: lightblue;
-            margin-top: 70px;
+            margin-top: 50px;
             color: grey;
             margin-bottom: 10px;
         }
@@ -109,7 +109,7 @@
             {% for doctor in doctors['result'] %}
                 <div class="doctor">
                     <div class="image">
-                        <img src ="{{ url_for('static', filename='bb_florida-ent-doctor.png') }}">
+                        <img src ="{{ url_for('static', filename="")}}{{ doctor.photo }}">
                     </div>
                     <div class="con1">
                         <ul>

@@ -43,3 +43,19 @@ db_session.commit()
 link1 = doc_spec(doc_id = 5,spec_id=1,extra_data="Random data")
 db_session.add(link1)
 db_session.commit()
+
+
+
+
+
+for i in range(1001,6000):
+     i=str(i)
+     name = "Name:"+i
+     email = "Email"+i+"@practo.com"
+     experience = 10+int(i)
+     number = '099999'+i
+     city = "Bangalore"
+     salutation = "Dr."
+     d= Doctor(name=name,email=email,experience=experience,number=number,city=city,salutation = salutation)
+     db_session.add(d)
+
