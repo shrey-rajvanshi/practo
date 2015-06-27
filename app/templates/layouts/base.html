@@ -15,7 +15,15 @@
 		<div class="navbar-header">
       		<a class="navbar-brand" href="#"><img src="./../../../../static/practo.svg"/></a>
     	</div>
+    {% block loginpanel %}
+    	{% if current_user.is_authenticated() %}
+   <a class = "loginpanel">Profile</a>
+{% else %}
+    <a class = "loginpanel" href = "{{ url_for('landingpage') }}login">Login</a>
+{% endif %}
+    		
 
+    {% endblock %}
 	</nav>
 	<div class  "maincontent">{% block content %} {% endblock %}</div>
 

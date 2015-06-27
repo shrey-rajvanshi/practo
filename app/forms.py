@@ -2,7 +2,7 @@ from wtforms import Form, StringField, IntegerField, validators
 from wtforms.validators import DataRequired
 
 
-class DoctorForm(Form):
+class DoctorForm(Form):                                                                                   #Not Used . Implemented by Admin ModelView
    id = IntegerField('id')
    name = StringField('Name', [validators.Length(min=4, max=25)])
    city = StringField('City', [validators.Length(min=4, max=25)])
