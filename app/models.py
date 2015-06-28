@@ -112,8 +112,8 @@ class Clinic(Base):
   __tablename__ ="clinic_details"
   id = Column(Integer, primary_key = True)
   name = Column(String(100))
-  city= Column(String(20))  
-  locality = Column(String(400))
+  city = Column(Integer,ForeignKey('cities.id'))
+  locality = Column(Integer,ForeignKey('localities.id'))
   address = Column(Text)
   about = Column(Text)
   timings = Column(String(50))
@@ -125,7 +125,7 @@ class Clinic(Base):
   def __repr__(self):
         return str(self.name)
 
-  def __init__(self, name="", city='', locality='', address=''):
+  def __init__(self, name="", city=1, locality='', address=''):
     self.city = city
     self.name = name
     self.address=address
