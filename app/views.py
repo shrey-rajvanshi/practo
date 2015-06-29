@@ -89,7 +89,7 @@ def landingpage():
 
 @app.route('/check')
 def check_conn():
-    return "WorkingFinejhgkhjg"
+    return "Connection is fine"
 
 @app.route('/profile/<doc_id>')
 def doctor_profile(doc_id):
