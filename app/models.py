@@ -15,8 +15,7 @@ class Doctor(Base):
   number = Column(String(10))
   recommendations = Column(Integer)                                                   
   qualification = Column(Text)                                                        
-  locality = Column(Integer, ForeignKey('localities.id'))
-  city = Column(Integer,ForeignKey('cities.id'))                                     
+  locality = Column(Integer, ForeignKey('localities.id'))                                   
   status = Column(String(200))
   specialities = relationship("Speciality",  secondary="assoc_doc_spec_table")
   clinics = relationship("Clinic",  secondary="assoc_doc_clinic_table")
@@ -26,12 +25,13 @@ class Doctor(Base):
   published = Column(Integer)                                                                       #Whether doctor profile is live.
 
 
-  def __init__(self,  name = None, email = None, 
+  def __init__(self,  name = None, locality = None,email = None, 
       experience = None,number = None, qualification = None,  
       recommendations = None, salutation = None):
       self.name = name
       self.email = email
       self.experience = experience
+      self.locality = locality
       self.number = number
       self.qualification = qualification
       self.recommendations = recommendations
@@ -50,7 +50,7 @@ class Doctor(Base):
     'email':self.email,
     'experience':self.experience,
     'recommendations':self.recommendations,
-    'city':City.query.get(int(self.city)).name,
+    'city':City.query.get(Locality.query.get(self.locality).city_id).name,
     'specialities':[str(speciality) for speciality in self.specialities],
     'clinics':[str(clinic) for clinic in self.clinics]
     }
@@ -112,7 +112,6 @@ class Clinic(Base):
   __tablename__ ="clinic_details"
   id = Column(Integer, primary_key = True)
   name = Column(String(100))
-  city = Column(Integer,ForeignKey('cities.id'))
   locality = Column(Integer,ForeignKey('localities.id'))
   address = Column(Text)
   about = Column(Text)
@@ -125,8 +124,7 @@ class Clinic(Base):
   def __repr__(self):
         return str(self.name)
 
-  def __init__(self, name="", city=1, locality='', address=''):
-    self.city = city
+  def __init__(self, name="", locality=1, address=''):
     self.name = name
     self.address=address
     self.locality = locality

@@ -21,9 +21,12 @@ def generate_large_csv():
 @login_required
 def downloadall():
 	csv = ""
-	csv+=("Name"+","+"Email"+","+"Number"+","+"City"+","+"status"+","+"qualification"+"\n")
+	csv+=("Name"+","+"Email"+","+"Number"+","+"City"+","+"status"+","+\
+		"qualification"+"\n")
 	for d in Doctor.query.all():
-		csv+=(str(d.name)+","+str(d.email)+","+str(d.number)+","+str(d.city)+","+str(d.status)+","+str(d.qualification)+"," +"\n")
+		csv+=(str(d.name)+","+str(d.email)+","+str(d.number)+","+\
+			City.query.get(Location.query.get(d.locality).name)+","+str(d.status)+\
+			","+str(d.qualification)+"," +"\n")
 	response = make_response(csv)
 	response.headers["Content-Disposition"] = "attachment; filename=AllDoctors.csv"
 	return response
@@ -34,9 +37,11 @@ def downloadall():
 @login_required
 def downloadallpublished():
 	csv = ""
-	csv+=("Name"+","+"Email"+","+"Number"+","+"City"+","+"status"+","+"qualification"+"\n")
+	csv+=("Name"+","+"Email"+","+"Number"+","+"City"+","+"status"+\
+		","+"qualification"+"\n")
 	for d in Doctor.query.filter(Doctor.published==1):
-		csv+=(str(d.name)+","+str(d.email)+","+str(d.number)+","+str(d.city)+","+str(d.status)+","+str(d.qualification)+"," +"\n")
+		csv+=(str(d.name)+","+str(d.email)+","+str(d.number)+","+str(d.city)
+			+","+str(d.status)+","+str(d.qualification)+"," +"\n")
 	response = make_response(csv)
 	response.headers["Content-Disposition"] = "attachment; filename=AllPublishedDoctors.csv"
 	return response

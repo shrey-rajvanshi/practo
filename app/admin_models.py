@@ -17,6 +17,8 @@ from flask import Flask, url_for,redirect,request
 from flask.ext.security import current_user, login_required, RoleMixin, Security,  SQLAlchemyUserDatastore, UserMixin, utils,current_user
 from flask.ext.login import current_user
 
+from elasticsearch import Elasticsearch
+es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
 
 
 
@@ -33,8 +35,11 @@ class MyHomeView(AdminIndexView):
         if not current_user.is_active() or not current_user.is_authenticated():
             return False
 
-        if current_user.has_role('admin'):
+        if current_user.is_authenticated():
             return True
+
+        '''if current_user.has_role('admin'):
+            return True'''
 
         return False
 
@@ -46,10 +51,11 @@ class DoctorAdmin(sqla.ModelView):
     column_display_pk = True
     column_exclude_list = ['id','fees','recommendations','published']
     form_columns = ('salutation','name','email','number','experience','qualification',
-        'city','clinics','specialities','photo','verified')
+        'clinics','specialities','photo','verified','published')
     column_searchable_list = ('name', 'id',)
-    column_editable_list = ('name','email','experience','qualification','city','verified')
-    column_filters = ('city', 'email','name')
+    
+    column_editable_list = ('name','email','experience','qualification','verified')
+    column_filters = ('email','name')
     #form_excluded_columns = ('associated_doctorlist','associated_doctors')
     #inline_models = (Clinic,)
     form_extra_fields = {
@@ -59,19 +65,24 @@ class DoctorAdmin(sqla.ModelView):
         if not model.photo:
             return ''
 
-        return Markup('<img src="%s">' % url_for('static',filename=form.thumbgen_filename(model.photo)))
+        return Markup('<img src="%s">' % url_for('static',
+            filename=form.thumbgen_filename(model.photo)))
 
+    def is_accessible(self):
+        if current_user.has_role('DataEntry') or current_user.has_role('admin'):
+            return True
+        return False
     column_formatters = {
         'photo': _list_thumbnail
     }
-    '''
-    def __init__(self):
-        print "called"
-    
-    def after_model_change(self, form, model, is_created):
 
-        return super(UserAdmin, self).after_model_change(form, model, is_created)
-    '''    
+
+    def after_model_change(self, form, model, is_created):
+        doc = {'name':model.name, "id":model.id,"city":\
+        City.query.get(Locality.query.get(model.locality).city_id).name}
+        es.index(index="practo_index", doc_type='doctors',body=doc)
+
+ 
 
 admin.add_view(DoctorAdmin(Doctor, db_session))
 
@@ -84,7 +95,7 @@ admin.add_view(SpecialityAdmin(Speciality, db_session))
 
 
 class ClinicAdmin(sqla.ModelView):
-    form_columns = ('doctors',"name","city","locality",'address')
+    form_columns = ('doctors',"name","locality",'address')
     column_searchable_list = ('name', 'id')
     column_exclude_list = ['id','about','timings','lattitude','longitude']
 
