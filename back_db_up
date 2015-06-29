@@ -1,0 +1,4 @@
+
+/usr/local/bin/mysqldump -u root practo > practodump.sql
+
+/usr/local/bin/mysql -u root practobackup < practodump.sql
