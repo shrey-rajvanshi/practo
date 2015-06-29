@@ -48,12 +48,12 @@ db_session.commit()
 
 
 
-for i in range(1001,6000):
+for i in range(10,60):
      i=str(i)
      name = "Name:"+i
      email = "Email"+i+"@practo.com"
      experience = 10+int(i)
-     number = '099999'+i
+     number = '09999912'+i
      city = "Bangalore"
      salutation = "Dr."
      d= Doctor(name=name,email=email,experience=experience,number=number,city=city,salutation = salutation)
@@ -73,7 +73,7 @@ from app.models import *
 
 
 #Creating users
-u1 = User(name= "Admin",email = "admin@practo.com",password = "pass")
+u1 = User(name= "Admin",email = "admin@practo.com",password = "pass",active = 1)
 u2 = User(name = "Data Entry Team",email = "dataentry@practo.com",password = "pass")
 r1= Role(name="admin" , description = "Admin rights")
 r2 = Role(name = "DataEntry",description = "Data Entry rights")
@@ -99,47 +99,36 @@ db_session.commit()
 
 
 
-
-
-
-
-
-
 #------------------------------------------------------------------------------------------------------------------------------------
 
 
-add to elastic search(():
-     speciality, name, locality.name, 
+#add to elastic search(():
+ #    speciality, name, locality.name,
 
 
-
+from app import app
+from app.database import *
+from app.models import *
 
 from elasticsearch import Elasticsearch
 es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
 
-
-doc = {'name':"Shrey","city":"Bangalore","speciality":["Dentist","ENT"]}
-res = es.index(index="test-index", doc_type='doctors', body=doc)
-
-
-
-res = es.get(index="test-index", doc_type='doctors', id=1)
-print(res['_source'])
-
-
-
-
-
-
 for d in Doctor.query.all():
-     cityname = City.query.get(d.city).name
-     localityname = Locality.query.get(d.locality).name
-     clinics = [clinic.name for clinic in d.clinics]
-     specialities = [speciality.name for speciality in d.specialities]
-     doc = {'name':d.name, 'city':cityname, 'locality':localityname, 'specialities':specialities , 'clinics' : clinics}
+     print "querying : ",d.name
+     doc = {'name':d.name, "id":d.id,"city":City.query.get(d.city).name}
      es.index(index="practo_index", doc_type='doctors',body=doc)
+     
+for clinic in Clinic.query.all():
+    doc = {"id":clinic.id,"name":clinic.name,"city":City.query.get(clinic.city).name} 
+    es.index(index="practo_index", doc_type='clinics',body=doc)
+     
 
-
-
-
-
+for spec in Speciality.query.all():
+    doc = {"name":spec.name}
+    es.index(index="practo_index", doc_type='specialities',body=doc)
+     
+for l in Locality.query.all():
+    localityname = l.name
+    cityname = City.query.get(l.city_id).name
+    doc = {"name":localityname,"city":cityname,"type":"locality"}
+    es.index(index="practo_index", doc_type='location',body=doc)
