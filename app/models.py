@@ -1,28 +1,29 @@
-from sqlalchemy import Column,  Integer,  String, Text, Table, ForeignKey,  DateTime,  Boolean
+from sqlalchemy import Column,  Integer,  String, Text, Table, ForeignKey,\
+  DateTime,  Boolean
 from sqlalchemy.orm import relationship, backref
 from database import Base
 from werkzeug import secure_filename
-from flask.ext.security import  RoleMixin,  Security,   SQLAlchemyUserDatastore,  \
-    UserMixin,  utils
+from flask.ext.security import  RoleMixin,  Security, \
+   SQLAlchemyUserDatastore, UserMixin,  utils
 
-class Doctor(Base):                                                                   #Doctor details
+class Doctor(Base):                                                                   
   __tablename__ = 'doctor_details'
   id = Column(Integer, primary_key = True)
   name = Column(String(64))
   email = Column(String(100))
-  experience = Column(Integer)                                                        #experience in years
+  experience = Column(Integer)                                                        
   number = Column(String(10))
-  recommendations = Column(Integer)                                                   #no Of recommendations
-  qualification = Column(Text)                                                        #stored as text. Maybe split into name,  institution etc.
+  recommendations = Column(Integer)                                                   
+  qualification = Column(Text)                                                        
   locality = Column(Integer, ForeignKey('localities.id'))
-  city = Column(Integer,ForeignKey('cities.id'))                                     #main location of a doctor. 
+  city = Column(Integer,ForeignKey('cities.id'))                                     
   status = Column(String(200))
   specialities = relationship("Speciality",  secondary="assoc_doc_spec_table")
   clinics = relationship("Clinic",  secondary="assoc_doc_clinic_table")
   photo = Column(String(100))
-  salutation = Column(String(10))                                                     #Salutation : Mr, Dr,  etc.
-  verified = Column(Integer)                                                            #Whether doctor profile has been verified.
-  published = Column(Integer)                                                         #Whether doctor profile is live.
+  salutation = Column(String(10))                                                                   #Salutation : Mr, Dr,  etc.
+  verified = Column(Integer)                                                                        #Whether doctor profile has been verified.
+  published = Column(Integer)                                                                       #Whether doctor profile is live.
 
 
   def __init__(self,  name = None, email = None, 
@@ -100,13 +101,12 @@ class Speciality(Base):
 
 class doc_spec(Base):                                       
     __tablename__ = 'assoc_doc_spec_table'
-    doc_id = Column(Integer,  ForeignKey('doctor_details.id'),  primary_key=True)
-    spec_id = Column(Integer,  ForeignKey('Speciality_details.id'),  primary_key=True)
-    #rel_speciality = relationship(Speciality,  backref=backref("associated_specialities", cascade="save-update,  merge, delete,  all, delete-orphan"))
-    #rel_doctor = relationship(Doctor,  backref=backref("associated_doctors", cascade="save-update,  merge, delete,  all, delete-orphan"))
-
+    doc_id = Column( Integer,  ForeignKey('doctor_details.id'), 
+      primary_key=True)
+    spec_id = Column( Integer,  ForeignKey('Speciality_details.id'),
+     primary_key=True)
     def __repr__(self):
-        return 'Doc Spec b/w :' + str(self.doc_id)+" and "+str(self.spec_id)
+        return 'Doc Spec  b/w :' + str(self.doc_id)+" and "+str(self.spec_id)
 
 class Clinic(Base):
   __tablename__ ="clinic_details"
@@ -133,16 +133,14 @@ class Clinic(Base):
 
 class assoc_doc_clinic(Base):
   __tablename__ = "assoc_doc_clinic_table"
-  doc_id = Column(Integer,  ForeignKey('doctor_details.id'),  primary_key=True)
-  clinic_id = Column(Integer,  ForeignKey('clinic_details.id'),  primary_key=True)
-  #rel_doctor = relationship(Doctor,  backref=backref("associated_doctorlist", cascade="save-update,  merge, delete,  all, delete-orphan"))
-  #rel_clinic = relationship(Clinic, backref=backref("associated_clinics", cascade="save-update,  merge, delete,  all, delete-orphan"))
+  doc_id = Column(Integer,  ForeignKey('doctor_details.id'), primary_key=True)
+  clinic_id = Column(Integer, ForeignKey('clinic_details.id'), primary_key=True)
   fees = Column(Integer)
   timings = Column(String(300))
 
 
   def __repr__(self):
-        return 'Doc Spec b/w :' + str(self.doc_id) + " and " + str(self.clinic_id)
+        return 'Doc Spec:' + str(self.doc_id) + " and " + str(self.clinic_id)
 
 
 # Create a table to support a many-to-many relationship between Users and Roles
@@ -164,7 +162,6 @@ class Role(Base,  RoleMixin):
   def __str__(self):
       return self.name
 
-  # __hash__ is required to avoid the exception TypeError: unhashable type: 'Role' when saving a User
   def __hash__(self):
       return hash(self.name)
 
@@ -175,8 +172,6 @@ class Role(Base,  RoleMixin):
 # User class
 class User(Base,  UserMixin):
     __tablename__ = "users"
-    # Our User has six fields: ID,  email,  password,  active,  confirmed_at and roles. The roles field represents a
-    # many-to-many relationship using the roles_users table. Each user may have no role,  one role,  or multiple roles.
     id = Column(Integer,  primary_key=True)
     name = Column(String(30))
     email = Column(String(255),  unique=True)
@@ -188,20 +183,3 @@ class User(Base,  UserMixin):
         secondary = roles_users, 
         backref = backref('users',  lazy = 'dynamic')
     )
-
-    '''
-    def is_authenticated(self):
-        return True
-
-    def is_active(self):
-        return True
-
-    def is_anonymous(self):
-        return False
-
-    def get_id(self):
-        return unicode(self.id)
-
-    def __repr__(self):
-        return self.email
-        '''

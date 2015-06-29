@@ -15,17 +15,3 @@ app.config['UPLOAD_FOLDER'] = "/static/"
 app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024						#2 Mb limit for uploads
 
 from app import views, models,admin_views,admin_models
-
-
-
-'''
-@login_manager.user_loader
-def load_user(userid):
-	u=User.get(userid)
-	if u :
-		return u
-	else :
-		return None
-
-
-		'''

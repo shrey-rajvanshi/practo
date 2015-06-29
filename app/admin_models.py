@@ -15,7 +15,6 @@ import os
 from jinja2 import Markup
 from flask import Flask, url_for,redirect,request
 from flask.ext.security import current_user, login_required, RoleMixin, Security,  SQLAlchemyUserDatastore, UserMixin, utils,current_user
-#from flask.ext.security.datastore import UserDatastore
 from flask.ext.login import current_user
 
 
@@ -39,14 +38,15 @@ class MyHomeView(AdminIndexView):
 
         return False
 
-admin = Admin(app,index_view=MyHomeView())
+admin = Admin(app, index_view=MyHomeView())
 
 
 
 class DoctorAdmin(sqla.ModelView):
     column_display_pk = True
     column_exclude_list = ['id','fees','recommendations','published']
-    form_columns = ('salutation','name','email','number','experience','qualification','city','clinics','specialities','photo','verified')
+    form_columns = ('salutation','name','email','number','experience','qualification',
+        'city','clinics','specialities','photo','verified')
     column_searchable_list = ('name', 'id',)
     column_editable_list = ('name','email','experience','qualification','city','verified')
     column_filters = ('city', 'email','name')
@@ -84,13 +84,11 @@ admin.add_view(SpecialityAdmin(Speciality, db_session))
 
 
 class ClinicAdmin(sqla.ModelView):
-	#form_excluded_columns = ('doctors',)
+    form_columns = ('doctors',"name","city","locality",'address')
     column_searchable_list = ('name', 'id')
     column_exclude_list = ['id','about','timings','lattitude','longitude']
 
 admin.add_view(ClinicAdmin(Clinic,db_session))
-
-
 
 class LocalityAdmin(sqla.ModelView):
     #form_excluded_columns = ('associated_specialities',)
@@ -99,8 +97,6 @@ class LocalityAdmin(sqla.ModelView):
 
 admin.add_view(LocalityAdmin(Locality, db_session))
 
-
-
-
 admin.add_view(ModelView(City,db_session))
+
 admin.add_view(ModelView(Country,db_session))

@@ -1,12 +1,15 @@
-from flask import Flask, render_template, request, session, redirect, url_for,g,jsonify
+from flask import Flask, render_template, request, session, redirect,\
+ url_for,g,jsonify
 from database import init_db, db_session
 from models import *
 from app import app
 from forms import *
 from werkzeug import secure_filename
-from flask.ext.security import current_user, login_required, SQLAlchemyUserDatastore
+from flask.ext.security import current_user, login_required, \
+  SQLAlchemyUserDatastore
 from flask_security.datastore import UserDatastore
-from flask.ext.login import login_user, logout_user, current_user, login_required,LoginManager
+from flask.ext.login import login_user, logout_user, \
+  current_user, login_required,LoginManager
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.user import roles_required
 import json
@@ -14,39 +17,40 @@ import json
 
 
 @app.route('/home', methods=['GET', 'POST'])
-def home():                                                             #display all doctors . No specific use.
+def home():                                                             
     doctors = Doctor.query.all()
     specs = Speciality.query.all()
     isblank=False
     if(len(doctors)==0):
         isblank=True
-    return render_template('index.html', doctors=doctors,blank_flag=isblank)
+    return render_template('index.html', doctors=doctors, blank_flag=isblank)
 
 @app.route('/search/<location>')
-@app.route('/search/<location>/')                                        #Trailing slash issue solved
-def searchbylocation(location):                                          #Search doctors by city.
+@app.route('/search/<location>/')                                       
+def searchbylocation(location):                                          
     doctors={}
     doctors['result'] = Doctor.query.filter(Doctor.city==location)
-    clinic= Clinic.query.filter(Clinic.city==location).first()
-    isblank=False
-    if(len(doctors)==0):
-        isblank=True
-    return render_template('index.html',page=1, doctors=doctors,blank_flag=isblank,clinic=clinic)
+    clinic = Clinic.query.filter(Clinic.city==location).first()
+    isblank = False
+    if(len(doctors) == 0):
+        isblank = True
+    return render_template('index.html', page=1, doctors=doctors,
+            blank_flag=isblank, clinic=clinic)
 
   
 @app.route('/search/<location>/<speciality>/', methods=['GET', 'POST'])
 @app.route('/search/<location>/<speciality>', methods=['GET', 'POST'])                  
 @app.route('/search/<location>/<speciality>/<int:page>', methods=['GET', 'POST'])                  
-def searchbyspecialitynlocation(location,speciality,page=1):                                       #main search function by city and speciality
+def searchbyspecialitynlocation(location,speciality,page=1):                                       
    pagesize = 5
    try:
-    searchedSpecId=Speciality.query.filter(Speciality.name == speciality).first().id                 #Id of searched speciality
+    searchedSpecId=Speciality.query.filter(Speciality.name == speciality).first().id                 
    except:
     return "Speciality Not found. <a href = './../../'>Go back</a>"
 
    listOfDoc_specs = doc_spec.query.filter(
      doc_spec.spec_id == searchedSpecId).offset(
-       int((page-1)*pagesize)).limit(int(pagesize + 1)).all()                              #list of all associated doc_spec(associated object) IDs
+       int((page-1)*pagesize)).limit(int(pagesize + 1)).all()                              
    print listOfDoc_specs
    doctors = {}
    doctors['result'] = []
@@ -54,7 +58,8 @@ def searchbyspecialitynlocation(location,speciality,page=1):                    
 
    for doc_spec_object in listOfDoc_specs:                                                 #get doctors in list of associated objects' ids
        doc_id = doc_spec_object.doc_id
-       if(Doctor.query.get(int(doc_id)).city.lower() == location.lower() ):                #and Doctor.query.get(int(doc_id)).published==1):                                  #filter selected Doctor objects on location
+       if(Doctor.query.get(int(doc_id)).city == \
+        City.query.filter(City.name==location).first().id ):                
            doctors['result'].append(Doctor.query.get(int(doc_id)))
    
    print type(doctors['result'])
@@ -71,21 +76,26 @@ def searchbyspecialitynlocation(location,speciality,page=1):                    
    isblank=False
    if(len(doctors['result']) == 0):
        isblank=True
-   return render_template('index.html',pages=page, doctors=doctors,blank_flag=isblank,clinic = clinic,  location=location,speciality=speciality)
+   return render_template('index.html',pages=page, doctors=doctors,
+    blank_flag=isblank,clinic = clinic,
+    location=location,speciality=speciality)
 
 @app.route('/')
 def landingpage():
     form = SearchForm(request.form)
     city = ['Bangalore','Mumbai','Delhi']
-    return render_template('SearchForm.html',form=form,cities=city)
+    return render_template('SearchForm.html', form = form, cities = city)
 
 
+@app.route('/check')
+def check_conn():
+    return "WorkingFinejhgkhjg"
 
 @app.route('/profile/<doc_id>')
 def doctor_profile(doc_id):
     d=Doctor.query.get(doc_id)
     clinics = d.clinics
-    return render_template('profilePage.html',doctor = d, clinics =clinics)
+    return render_template('profilePage.html', doctor = d, clinics = clinics)
 
 
 
@@ -111,8 +121,6 @@ def get_all_doctors():
 
 #----------------------------------------------------------Authentication stuff------------------------------------------------------#
 
-
-
 db = SQLAlchemy(app)
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
@@ -126,7 +134,7 @@ def logina():
 @app.route('/loginadmin')
 @roles_required('admin')
 def loginb():
-    return 'Test:You need to login to be able to make changes'
+    return 'Test:You need to login as admin to be able to make changes'
 
 
 @app.route('/login/check', methods=['post'])

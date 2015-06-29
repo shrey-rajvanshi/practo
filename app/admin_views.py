@@ -18,6 +18,7 @@ def generate_large_csv():
 
 
 @app.route('/download')
+@login_required
 def downloadall():
 	csv = ""
 	csv+=("Name"+","+"Email"+","+"Number"+","+"City"+","+"status"+","+"qualification"+"\n")
@@ -30,6 +31,7 @@ def downloadall():
 
 
 @app.route('/downloadpublished')
+@login_required
 def downloadallpublished():
 	csv = ""
 	csv+=("Name"+","+"Email"+","+"Number"+","+"City"+","+"status"+","+"qualification"+"\n")
