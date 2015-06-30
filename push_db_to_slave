@@ -1,5 +1,6 @@
 /usr/local/bin/mysqldump -u root practo > practodump.sql
 
+mysqladmin -u root -f drop restdb
+mysqladmin -u root create restdb
 
-/usr/local/bin/mysql -u root restpracto < practodump.sql
-
+/usr/local/bin/mysql -u root restdb < practodump.sql

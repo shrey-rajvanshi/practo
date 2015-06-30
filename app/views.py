@@ -54,12 +54,10 @@ def searchbyspecialitynlocation(location,speciality,page=1):
    print listOfDoc_specs
    doctors = {}
    doctors['result'] = []
-   clinic = Clinic.query.filter(Clinic.city==location).first()                             #To-Do: add clinic speciality
-
    for doc_spec_object in listOfDoc_specs:                                                 #get doctors in list of associated objects' ids
        doc_id = doc_spec_object.doc_id
-       if(Doctor.query.get(int(doc_id)).city == \
-        City.query.filter(City.name==location).first().id ):                
+       if(Locality.query.get(Doctor.query.get(int(doc_id)).locality).city_id \
+        == City.query.filter(City.name==location).first().id ):                
            doctors['result'].append(Doctor.query.get(int(doc_id)))
    
    print type(doctors['result'])
@@ -76,8 +74,9 @@ def searchbyspecialitynlocation(location,speciality,page=1):
    isblank=False
    if(len(doctors['result']) == 0):
        isblank=True
+   clinic=Clinic.query.get(1)
    return render_template('index.html',pages=page, doctors=doctors,
-    blank_flag=isblank,clinic = clinic,
+    blank_flag=isblank,clinic=clinic,
     location=location,speciality=speciality)
 
 @app.route('/')

@@ -26,8 +26,8 @@ class Doctor(Base):
 
 
   def __init__(self,  name = None, locality = None,email = None, 
-      experience = None,number = None, qualification = None,  
-      recommendations = None, salutation = None):
+      experience = 3,number = None, qualification = None,  
+      recommendations = None, salutation = None,verified=0,published=0):
       self.name = name
       self.email = email
       self.experience = experience
@@ -37,8 +37,8 @@ class Doctor(Base):
       self.recommendations = recommendations
       self.status = 0
       self.salutation = salutation
-      self.verified = 0
-      self.published = 0
+      self.verified = verified
+      self.published = published
 
   def __repr__(self):
         return str(self.salutation) + str(self.name)
